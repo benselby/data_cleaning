@@ -1,0 +1,27 @@
+<!doctype html>
+
+<title>Data Quality Reports</title>
+<link rel="stylesheet" href="datacleaning.css">
+
+<h1> NAPLS3 Clinical Data Quality Reports</h1>
+
+<div id="filelist">
+<div id="file_text"></div>
+    <table id="file_table">
+        <tr>
+            <th>Filename</th>
+            <th>Report</th>
+        </tr>
+    </table>
+</div>
+
+
+<div id="report_summary">
+    <h2>Report Summary</h2>
+    <button> Download .csv </button>
+    <button> Download report (.txt) </button>
+    <button id="refresh"> Refresh report </button>    
+    <pre id="details"></pre>
+</div>
+
+<script src=dqc_client.js></script>
