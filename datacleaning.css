@@ -1,5 +1,32 @@
+#tools {
+    display: 'none';
+}
+
 #file_table {
     display: 'none';
+}
+
+#qname{
+    display: 'none';
+}
+
+#qtable th{
+    display: 'none';
+    border: 1px solid black;
+    border-spacing: 20px 0;
+    text-align: center;      
+}
+
+#qtable td {
+    text-align: left;
+    border: 1px solid black;
+    padding: 0 10px;
+}
+
+#qtable {
+    display: 'none';
+    border: 1px solid black;
+    border-collapse: collapse;
 }
 
 #filelist {
@@ -9,7 +36,8 @@
 
 #report_summary {
     float: left;
-    max-width: 430px;
+    max-width: 575px;
+    display: 'none';
 }
 
 pre {

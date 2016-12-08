@@ -6,16 +6,18 @@ var util = require('util');
 var fs = require('fs');
 var report;
 
-module.exports = {
-//    Flag: function(row, msg){
-//        this.row = row;
-//        this.msg = msg;
-//    },
-//    
-//    Flag.prototype.test: function() {
-//        console.log("Flag contains message:", this.msg);
-//    },
+//var queries = [];
+var missing = [];
 
+var Query = function(id, site, field, query, row) {
+    this.id = id;
+    this.site = site;
+    this.field = field;
+    this.query = query;    
+    this.row = row;
+};
+
+module.exports = {
     init_report: function(name, report_path, csv_path) {
         report = fs.createWriteStream(report_path, {flags:'w'});
         this.write_header(name, csv_path);
@@ -42,7 +44,9 @@ module.exports = {
                 return i+2;
         }
     },
-    
+        
+    // returns the row index (in the .csv) of the row which contains the 
+    // values specified in the 'keys' object
     get_row: function(keys, raw_data) {
         var key_list = Object.keys(keys);
         for (var i=0; i<raw_data.length; i++){
@@ -58,7 +62,8 @@ module.exports = {
         }
         return -1;
     },
-
+    
+    // same as above, but returns the actual row object
     get_row_data: function(keys, raw_data) {
         var key_list = Object.keys(keys);
         for (var i=0; i<raw_data.length; i++){
@@ -105,11 +110,14 @@ module.exports = {
         return passed;    
     },
     
-    findZeroRows: function(array, prop, raw_data){
-        var passed = [];
+    findZeroRows: function(array, prop, raw_data, queries){
+        var passed = [];        
         for (var i=0; i<array.length; i++){
-            if (array[i][prop]==0)
-                passed.push(this.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data ) );
+            var row_ind = this.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
+            if (array[i][prop]==0){
+                passed.push( row_ind );
+                queries.push( this.make_query( array[i], prop, "Should not be 0", row_ind ) );
+            }
         }
         if (passed.length!=0)
             this.write_report( util.format( "%s is zero for %d rows: %s", prop, passed.length, passed.toString()));
@@ -118,11 +126,14 @@ module.exports = {
         return passed;
     },
 
-    findBlankRows: function(array, prop, raw_data){
+    findBlankRows: function(array, prop, raw_data, queries){
         var passed = [];
         for (var i=0; i<array.length; i++){
-            if (array[i][prop]==='')
-                passed.push(this.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data ) );
+            var row_ind = this.get_row( {'SiteNumber':array[i].SiteNumber,                   'SubjectNumber':array[i].SubjectNumber}, raw_data.data );
+            if (array[i][prop]===''){
+                queries.push( this.make_query( array[i], prop, "Should not be blank", row_ind ) );
+                passed.push( row_ind );
+            }
         }
         if (passed.length!=0)
             this.write_report( util.format( "%s is blank for %d rows: %s", prop, passed.length, passed.toString()));
@@ -131,16 +142,23 @@ module.exports = {
         return passed;
     },
     
-    check_date_diff: function(array, date1, date2, diff, raw_data){
+    check_date_diff: function(array, date1, date2, diff, raw_data, queries){
         var bad_diffs = [];
         for (var i=0; i<array.length; i++){
+            var row_ind = this.get_row( {'SiteNumber':array[i].SiteNumber,                   'SubjectNumber':array[i].SubjectNumber}, raw_data.data );
+            if (array[i][date1]==''||array[i][date2]=='')
+                continue;            
             var d1 = new Date(array[i][date1].replace(/-/g," "));
             var d2 = new Date(array[i][date2].replace(/-/g, " "));
             var timeDiff = Math.abs(d2.getTime() - d1.getTime());
             var diffYears = Math.floor(timeDiff / (1000*3600*24*365) ); 
+            
+            if (isNaN(diffYears))
+                console.log(array[i][date1], '//', d1, d2, timeDiff, array[i][diff]);
+            
             if (diffYears!=array[i][diff]){
-                bad_diffs.push(this.get_row( {'SiteNumber':array[i].SiteNumber, 
-                                              'SubjectNumber':array[i].SubjectNumber}, raw_data.data ) );
+                bad_diffs.push(row_ind);                
+                queries.push( this.make_query(array[i], diff, "Incorrect age based on "+date1+" and "+date2 + " - should be "+diffYears, row_ind));
             }
         }
         if (bad_diffs.length!=0)
@@ -161,5 +179,26 @@ module.exports = {
         report.write( util.format(".csv last modified: %s\n", mod_datestr));
         report.write( util.format("Report generated on %s\n", datestr) );
         report.write("=========================\n");
-    }
+    },
+    
+    make_query: function(row, field, query, row_ind) {
+        // first, check the missing data stuff to verify that the query is valid
+        var id = row.SubjectNumber;
+        var site = row.SiteNumber;
+        var row_ind;
+        
+        return new Query(id, site, field, query, row_ind);
+    },
+    
+    // Generate a (text? .csv?) file that is human-readable to be used
+    // to query individual sites
+    generate_query_report: function(path) {
+
+    },
+    
+    Query: Query
 }
+
+//module.exports.queries = queries;
+
+

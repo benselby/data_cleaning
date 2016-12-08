@@ -9,6 +9,8 @@ function get_row( row, raw_data ){
                        "VisitLabel":row.VisitLabel}, 
                        raw_data);
 }
+
+
 // checks each 'field' in 'row' against each value in 'values',
 // returns true if there are any mismatches
 function check_fields(row, fields, values, queries, row_ind, given){
@@ -40,10 +42,9 @@ function check_fields(row, fields, values, queries, row_ind, given){
 module.exports = {
     check_data: function(url) {
         
-        rf.init_report("Cannabis", './reports/Cannabis.txt', url);
-
-        var raw_data, data;
+        rf.init_report("Trauma", './reports/Trauma.txt', url);
         
+        var raw_data, data;
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
@@ -54,40 +55,28 @@ module.exports = {
 //            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter_data_quality(raw_data.data);
-                   
+        
         if (data.length>1){
             // Run the rest of the data checks here
-            var fields = ['1','2','3','4','5','6'];
-            var c = 'cannabis_0';
             for (var i=0; i<data.length; i++) {
                 var row_ind = get_row(data[i], raw_data.data);
-                
-                if (data[i][c+'1']=='0'){
-                    for (var j=1; j<fields.length; j++){
-                        if ( data[i][c+fields[j]]!='' )
-                            queries.push(rf.make_query(data[i], c+fields[j], "Should be NA if not a cannabis user", row_ind));              
-                    }   
-                } else if (data[i][c+'1']=='1'){
-                    if (data[i][c+'2']=='2' && data[i][c+'3']>0)
-                        queries.push(rf.make_query(data[i], c+'2', "Participant should be a current cannabis user if they have used in the past 6 months", row_ind));           
-                    else if (data[i][c+'2']!='2' && data[i][c+'3']=='0')
-                        queries.push(rf.make_query(data[i], c+'2', "Participant should not be a current cannabis user if they have not used in the past 6 months", row_ind));
-                        
-                    if (data[i][c+'2']=='1'){
-                        if (data[i][c+'5']=='8')
-                            queries.push(rf.make_query(data[i], c+'5', "Should not be NA (8) if participant is a current user", row_ind));
-                        if (data[i][c+'6']!='8')
-                            queries.push(rf.make_query(data[i], c+'6', "Should be NA (8) if participant is a current user", row_ind));
-                    } else if (data[i][c+'2']=='2'){
-                        if (data[i][c+'6']=='8')
-                            queries.push(rf.make_query(data[i], c+'6', "Should not be NA (8) if participant is a current user", row_ind));
-                        if (data[i][c+'5']!='8')
-                            queries.push(rf.make_query(data[i], c+'5', "Should be NA (8) if participant is a current user", row_ind));
-                    }
+                var types = ['trauma_01','trauma_02','trauma_03','trauma_04','trauma_05','trauma_06'];
+                                
+                for (j in types){
+                    var fields = [types[j]+'a',types[j]+'b',types[j]+'c',
+                                  types[j]+'d',types[j]+'e',types[j]+'f'];
+                    if (data[i][fields[0]]=='0'){
+                        check_fields(data[i], fields.slice(1), [''], queries, row_ind, 'trauma has not occurred');
+                    } else if (data[i][fields[0]]=='1'){
+                        check_fields(data[i], fields.slice(1,fields.length-1), ['0','1'], queries, row_ind, 'trauma has occurred');
+                        if (data[i][fields[5]]<1 || data[i][fields[5]]>5){
+                            queries.push(rf.make_query(data[i], fields[5]+' - Impact', "Should be 1-5", row_ind));
+                        }
+                    }                    
                 }
-            }            
+            }
         }
         
-        return queries;
+        return queries;        
     }
 }
