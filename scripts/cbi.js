@@ -10,7 +10,6 @@ function get_row( row, raw_data ){
                        raw_data);
 }
 
-
 module.exports = {
     check_data: function(url) {
         
@@ -20,11 +19,6 @@ module.exports = {
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter_data_quality(raw_data.data);
         
@@ -48,8 +42,11 @@ module.exports = {
                         if (data[i][others[j]]=='')
                             queries.push(rf.make_query(data[i], others[j], "Can't be N/A given head injury history", row_ind));
                     }
-                }  
-                
+                    
+                    if (data[i].cbi_severe_rating=='1')
+                        queries.push(rf.make_query(data[i], 'Item 5 - Severity', "Should not be 1 given prior head injury", row_ind));
+                }                 
+                                
                 if (data[i].cbi_severe_rating=='6')
                     queries.push(rf.make_query(data[i], 'Item 5 - Severity', "High severity head injury", row_ind));                                  
             }
