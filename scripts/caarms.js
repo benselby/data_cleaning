@@ -45,11 +45,6 @@ module.exports = {
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter_data_quality(raw_data.data);
         
@@ -63,7 +58,7 @@ module.exports = {
                     'caarms_06','caarms_07','caarms_08','caarms_09',
                     'caarms_10','caarms_11','caarms_12','caarms_13',
                     'caarms_14','caarms_15','caarms_16','caarms_17'];
-                    check_fields(data[i], other_fields, ['1','2'], queries, row_ind, "item A1 is No (caarms_01 is 0)");
+                    check_fields(data[i], other_fields, ['1','0'], queries, row_ind, "item A1 is No (caarms_01 is 0)");
                     
                     if (data[i].caarms_18!='0')
                         queries.push(rf.make_query(data[i], 'Item E', "Should be No (0) given item A1 is No", row_ind));

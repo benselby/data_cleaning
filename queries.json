@@ -1,0 +1,116 @@
+[
+    {"name":"AUS-DUS",
+    "script_path":"./scripts/aus.js",
+    "url": ["./data/N3_AUS_DUS.csv"]
+    },
+    
+    {"name":"CAARMS",
+    "script_path":"./scripts/caarms.js",
+    "url": ["./data/N3_CARRMS.csv"]
+    },
+    
+    {"name":"Cannabis",
+    "script_path":"./scripts/cannabis.js",
+    "url": ["./data/N3_Cannabis.csv"]
+    },
+    
+    {"name":"CBI",
+    "script_path":"./scripts/cbi.js",
+    "url": ["./data/N3_CBI.csv"]
+    },
+    
+    {"name":"COGDIS",
+    "script_path":"./scripts/cogdis.js",
+    "url": ["./data/N3_COGDIS.csv"]
+    },
+    
+    {"name":"Conversion",
+    "script_path":"./scripts/conversion.js",
+    "url": ["./data/N3_Conversion.csv"]
+    },
+    
+    {"name":"Current Clinical State (CCS)",
+    "script_path":"./scripts/ccs.js",
+    "url": ["./data/N3_CCS.csv"]
+    },   
+
+    {"name":"Demographics",
+    "script_path":"./scripts/demographics.js",
+    "url": ["./data/N3_ClientInfo.csv"]
+    },
+    
+    {"name":"GAF",
+    "script_path":"./scripts/gaf.js",
+    "url": ["./data/N3_GAF.csv"]
+    },
+    
+    {"name":"PDC - Baseline",
+    "script_path":"./scripts/pdc_bl.js",
+    "url": ["./data/N3_PDC_BL.csv"]
+    },
+    
+    {"name":"PDC - Follow-up",
+    "script_path":"./scripts/pdc_fu.js",
+    "url": ["./data/N3_PDC.csv"]
+    },
+    
+    {"name":"SCID-IV",
+    "script_path":"./scripts/scidiv.js",
+    "url": ["./data/N3_SCIDIV.csv"]
+    },
+    
+    {"name":"SOPS",
+    "script_path":"./scripts/sops.js",
+    "url": ["./data/N3_SOPS.csv"]
+    },
+    
+    {"name":"SPD",
+    "script_path":"./scripts/spdc.js",
+    "url": ["./data/N3_SPDC.csv"]
+    },
+
+    {"name":"Trauma",
+    "script_path":"./scripts/trauma.js",
+    "url": ["./data/N3_Trauma.csv"]
+    },    
+    
+    {"name":"AUS-DUS & Cannabis",
+    "script_path":"./scripts/aus_cannabis.js",
+    "url": ["./data/N3_AUS_DUS.csv","./data/N3_Cannabis.csv"]
+    },
+    
+    {"name":"PDC & SPDC",
+    "script_path":"./scripts/pdc_spd.js",
+    "url": ["./data/N3_SPDC.csv","./data/N3_PDC.csv"]
+    },
+    
+    {"name":"SCID & CDSS",
+    "script_path":"./scripts/scid_cdss.js",
+    "url": ["./data/N3_SCIDIV.csv","./data/N3_CDSS.csv"]
+    },
+    
+    {"name":"SCID & AUS-DUS",
+    "script_path":"./scripts/scid_aus.js",
+    "url": ["./data/N3_SCIDIV.csv","./data/N3_AUS_DUS.csv"]
+    },
+    
+    {"name":"SCID & Conversion",
+    "script_path":"./scripts/scid_conversion.js",
+    "url": ["./data/N3_SCIDIV.csv","./data/N3_Conversion.csv"]
+    }, 
+    
+    {"name":"SCID & SPDC",
+    "script_path":"./scripts/scid_spd.js",
+    "url": ["./data/N3_SCIDIV.csv","./data/N3_SPDC.csv"]
+    },
+    
+    {"name":"SOPS & Conversion",
+    "script_path":"./scripts/sops_conv.js",
+    "url": ["./data/N3_SOPS.csv","./data/N3_Conversion.csv"]
+    },
+    
+    {"name":"SOPS & PDC",
+    "script_path":"./scripts/sops_pdc.js",
+    "url": ["./data/N3_SOPS.csv","./data/N3_PDC.csv"]
+    }
+]
