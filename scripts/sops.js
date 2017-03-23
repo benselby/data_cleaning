@@ -119,60 +119,52 @@ function check_followup(measure, data, raw, queries) {
             if (pt_data.length>1){
                 for (var j=1; j<pt_data.length; j++) {
                     var row_ind = rf.get_row( pt_data[j], raw.data );
-                    
                     // ARE THE DATA ALWAYS SORTED BY VISIT NUMBER? - seems like yes - this script depends on it.
-                    if (pt_data[j][measure+"_SOPS"] > 2 && pt_data[j-1][measure+"_SOPS"] > 2) {
-                        if (pt_data[j][measure+'_OnsetDateCode'] != 1 ) {
-                            str = util.format("Should be 1 (N/A) given earlier recorded onset at %s", pt_data[j-1].VisitLabel);
-                            queries.push( rf.make_query(pt_data[j], measure + ' onset date code', str, row_ind) );
-                            bad.push(row_ind); 
-                        } 
-                        if ( pt_data[j][measure+'_Onset'] != '' ){
-                            queries.push( rf.make_query(pt_data[j], measure + ' onset date', "Should be N/A given prior and current severity > 2", row_ind) );
-                            bad.push(row_ind); 
-                        }
-                        else if (pt_data[j][measure+"_SOPS"] <= pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] != ''){
-                               queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should be N/A given severity did not increase", row_ind) );  
-                               bad.push(row_ind );
-                        }
-                        
-                    
-                    } else if (pt_data[j][measure+"_SOPS"] > 2 && pt_data[j-1][measure+"_SOPS"] < 3) {     
+                    if (pt_data[j][measure+'_SOPS'] > 2) {
                         var earlier_onset = false;
+                        var visit_label = '';
                         for (var k=0; k<j; k++){
-                            if (pt_data[k][measure+'_OnsetDateCode']!='1'){
+                            if (pt_data[k][measure+'_SOPS']>2){
                                 earlier_onset=true;
+                                visit_label = pt_data[k].VisitLabel;
                                 break;
                             }
-                        }             
-                        
+                        }   
+                    
                         if (earlier_onset){
-                            if (pt_data[j][measure+'_OnsetDateCode'] != 1 ) { 
-                                queries.push( rf.make_query(pt_data[j], measure + ' onset date code', "Should be 1 (N/A) given earlier recorded onset", row_ind) );
-                            } 
+                            if (pt_data[j][measure+'_OnsetDateCode'] != 1 ) {
+                                str = util.format("Should be 1 (N/A) given earlier recorded onset at %s", visit_label);
+                                queries.push( rf.make_query(pt_data[j], measure + ' onset date code', str, row_ind) );
+                            }                            
                             
-                            if (pt_data[j][measure+"_DateOfIncrease"]==''){
-                                queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should not be blank given severity increase and previously recorded onset", row_ind) );
-                                bad.push(row_ind ); 
-                            }     
+                            if ( pt_data[j][measure+'_Onset'] != '' ){
+                                str = util.format("Should be N/A given earlier recorded onset at %s", visit_label);
+                                queries.push( rf.make_query(pt_data[j], measure + ' onset date', str, row_ind) );
+                            }
+                            else if (pt_data[j][measure+"_SOPS"] <= pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] != ''){
+                                   queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should be N/A given severity did not increase", row_ind) );  
+                            }
+                            else if (pt_data[j][measure+"_SOPS"] > pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] == ''){
+                                   queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should not be N/A given severity increased", row_ind) );  
+                            }
                             
-                        } else {                             
+                        } else {
                             if (pt_data[j][measure+'_OnsetDateCode'] == 1 ) { 
                                 queries.push( rf.make_query(pt_data[j], measure + ' onset date code', "Should not be 1 (N/A) given severity > 2", row_ind) );
-                                bad.push(row_ind ); 
-                            }        
+                            }                           
                         }
-                                        
-                        if (pt_data[j][measure+'_OnsetDateCode']==2 && pt_data[j].Onset==''){
-                            queries.push( rf.make_query(pt_data[j], measure + ' onset date', "Should not be blank given onset code 2", row_ind) );
-                            bad.push(row_ind ); 
-                        }   
-                                        
-                    }  else if (pt_data[j][measure+"_SOPS"] < 3){
-                        if (pt_data[j][measure+'_OnsetDateCode'] != 1 ) { 
-                                queries.push( rf.make_query(pt_data[j], measure + ' onset date code', "Should be 1 (N/A) given earlier recorded onset", row_ind) );
-                        } 
-                    }           
+                        
+                    } else {
+                    
+                        if (pt_data[j][measure+"_DateOfIncrease"]!=''){
+                            queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should be N/A given severity < 3", row_ind) );
+                        }
+                        
+                        if (pt_data[j][measure+'_Onset'] != ''){
+                            queries.push( rf.make_query(pt_data[j], measure + ' onset date', "Should be N/A given severity < 3", row_ind) );
+                        }
+                    }
+                               
                 }
                 
                 // Check that onset dates are before visit dates, and increase dates are after onset dates

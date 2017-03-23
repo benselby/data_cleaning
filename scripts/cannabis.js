@@ -80,9 +80,9 @@ module.exports = {
                             queries.push(rf.make_query(data[i], c+'6', "Should be NA (8) if participant is a current user", row_ind));
                     } else if (data[i][c+'2']=='2'){
                         if (data[i][c+'6']=='8')
-                            queries.push(rf.make_query(data[i], c+'6', "Should not be NA (8) if participant is a current user", row_ind));
+                            queries.push(rf.make_query(data[i], c+'6', "Should not be NA (8) if participant is a past user", row_ind));
                         if (data[i][c+'5']!='8')
-                            queries.push(rf.make_query(data[i], c+'5', "Should be NA (8) if participant is a current user", row_ind));
+                            queries.push(rf.make_query(data[i], c+'5', "Should be NA (8) if participant is not a current user", row_ind));
                     }
                 }
             }            

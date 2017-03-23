@@ -9,9 +9,10 @@ var report;
 //var queries = [];
 var missing = [];
 
-var Query = function(id, site, field, query, row) {
+var Query = function(id, site, visit, field, query, row) {
     this.id = id;
     this.site = site;
+    this.visit = visit;
     this.field = field;
     this.query = query;    
     this.row = row;
@@ -185,10 +186,62 @@ module.exports = {
         // first, check the missing data stuff to verify that the query is valid
         var id = row.SubjectNumber;
         var site = row.SiteNumber;
+        var visit = row.VisitLabel;
         var row_ind;
         
-        return new Query(id, site, field, query, row_ind);
+        
+        return new Query(id, site, visit, field, query, row_ind);
     },
+    
+    // returns true if and of the fields in the row are equal to any of values,
+    // false otherwise
+    check_is_not_equal: function(row, fields, values, queries, row_ind, given) {
+        var mismatch_found = false;        
+        for (i in fields){
+            if (values.indexOf( row[fields[i]] ) != -1){
+                var value_string = '';
+                if (values.length > 1)
+                    value_string = "any of: ";
+                for (j in values){
+                    if (values[j]!='')
+                        value_string = value_string + values[j]; 
+                    else
+                        value_string = value_string + "N/A";
+                        
+                    if (j < values.length-1)
+                        value_string = value_string + ", ";   
+                }
+                var given_str = '';
+                if (given)
+                    given_str = " given " + given;
+                var query = this.make_query(row, fields[i], "Should not be "+ value_string + given_str, row_ind ); 
+                queries.push(query);
+                mismatch_found = true;
+            }
+        }
+        return mismatch_found;
+    },
+    
+    // returns false if any fields in row are NOT equal to values,
+    // true otherwise
+//    check_all_equal: function(row, fields, value) {
+//        var all_equal = true;        
+//        for (i in fields){
+//            if (row[fields[i]] != value)
+//                all_equal = false;
+//        }
+//        return all_equal;
+//    },
+//    
+//    range: function(start, end){
+//        var out = [];
+//        if (start > end)
+//            return undefined;
+//        for (var i=start; i<end; i++){
+//            out.push(i);
+//        }
+//        return out;
+//    },
     
     // Generate a (text? .csv?) file that is human-readable to be used
     // to query individual sites

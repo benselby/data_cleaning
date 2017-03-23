@@ -89,7 +89,7 @@ module.exports = {
                     }
                 }
                 if ((data[i].pdc_a2=='0'||data[i].pdc_a3=='0'||data[i].pdc_a4=='0') && data[i].VisitLabel!='C'){
-                    queries.push( rf.make_query( data[i], 'pdc_a1-3', "Should not be 0 if participant is not converted", row_ind));
+                    queries.push( rf.make_query( data[i], 'pdc_a1-3', "Should not be No (0)", row_ind));
                     bad_bips.push(row_ind);
                 }  
                 if (data[i].pdc_a7=='1'){
@@ -242,6 +242,9 @@ module.exports = {
                         queries.push(rf.make_query(data[i], 'pdc_b5', "Should be Yes (1) given items B1-B4 are 1", row_ind));
                         bad_aps.push(row_ind);
                     }
+                    
+                    if (data[i]['pdc_b7']=='')
+                        queries.push(rf.make_query(data[i], 'pdc_b7', "Should not be N/A given item B5 is No (0)", row_ind));
                 }
 
                 if (data[i].pdc_b7=='0'){                    
@@ -253,10 +256,11 @@ module.exports = {
                         if (data[i].pdc_b8!='1')
                             queries.push(rf.make_query(data[i], 'pdc_b8', "Should be Yes (1) given items B1-B3 are Yes (1)", row_ind));
                     }
-                    if (data[i].pdc_b4=='1'){
-                        if (data[i].pdc_b9!='1')
-                            queries.push(rf.make_query(data[i], 'pdc_b9', "Should be Yes (1) given item B4 is Yes (1)", row_ind));
-                    }
+                    if (data[i].pdc_b4=='1' && data[i].pdc_b9=='1'){
+                        queries.push(rf.make_query(data[i], 'pdc_b9', "Should be No (0) given item B4 is Yes (1)", row_ind));
+                    } else if (data[i].pdc_b4=='0' && data[i].pdc_b9=='0')
+                        queries.push(rf.make_query(data[i], 'pdc_b9', "Should be Yes (1) given item B4 is No (0)", row_ind));
+                    
                     if (data[i].pdc_b8=='1'&&data[i].pdc_b9=='1'){
                         if (data[i].pdc_b10!='1'){
                             queries.push(rf.make_query(data[i], 'pdc_b10', "Should be Yes (1) given items B8 and B9 are Yes (1)", row_ind));
@@ -376,15 +380,15 @@ module.exports = {
                     if ( data[i].pdc_c10=='1' && data[i].pdc_c11=='1' ){
                         if (data[i].pdc_c12==''){
                             queries.push(rf.make_query(data[i], 'pdc_c12', "Should not be N/A given items C10 and C11 are Yes", row_ind));                        
-                        }else{
-                            if (data[i].pdc_c12!=''){
-                                queries.push(rf.make_query(data[i], 'pdc_c12', "Should be N/A given items C10 and C11 are not both Yes", row_ind));
-                            }
+                        }
+                    }else{
+                        if (data[i].pdc_c12!=''){
+                            queries.push(rf.make_query(data[i], 'pdc_c12', "Should be N/A given items C10 and C11 are not both Yes", row_ind));
                         }
                     }
                     if (data[i].pdc_c11=='1'){
-                        if (!check_all_blank(data[i], 12, 17, 'pdc_c'))
-                            queries.push(rf.make_query(data[i], 'pdc_c12-16', "Should be N/A given C11 is Yes (1)", row_ind));
+                        if (!check_all_blank(data[i], 13, 17, 'pdc_c'))
+                            queries.push(rf.make_query(data[i], 'pdc_c13-16', "Should be N/A given C11 is Yes (1)", row_ind));
                     }
                 } 
                 
@@ -406,21 +410,6 @@ module.exports = {
                 }                            
             }
         }
-        
-//        if (bad_bips.length>1)
-//            rf.write_report(util.format('Bad BIPS (pdc_a) entries for the following %d rows: %s', bad_bips.length, bad_bips.toString()));
-//        else 
-//            rf.write_report("All BIPS (pdc_a) entries look good.");
-//            
-//        if (bad_aps.length>1)
-//            rf.write_report(util.format('Bad APS (pdc_b) entries for the following %d rows: %s', bad_aps.length, bad_aps.toString()));
-//        else 
-//            rf.write_report("All APS (pdc_b) entries look good.");
-//        
-//        if (bad_grd.length>1)
-//            rf.write_report(util.format('Bad GRD (pdc_c) entries for the following %d rows: %s', bad_grd.length, bad_grd.toString()));
-//        else 
-//            rf.write_report("All GRD (pdc_c) entries look good.");
         
         return queries;
     }

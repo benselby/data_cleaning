@@ -3,6 +3,25 @@ var util = require('util');
 var fs = require('fs');
 var rf = require('./reports');
 
+hr_names = {'caarms_01':'A1',
+'caarms_02':'B1',
+'caarms_03':'B2',
+'caarms_04':'B3',
+'caarms_05':'C1a.',
+'caarms_06':'C2a.',
+'caarms_07':'C1b.',
+'caarms_08':'C2b.',
+'caarms_09':'C3',
+'caarms_10':'C4',
+'caarms_11':'C5',
+'caarms_12':'D1',
+'caarms_13':'D2',
+'caarms_14':'D3',
+'caarms_15':'D4',
+'caarms_16':'D5',
+'caarms_17':'D6',
+'caarms_18':'E'};
+
 function get_row( row, raw_data ){
     return rf.get_row({"SiteNumber":row.SiteNumber,
                        "SubjectNumber":row.SubjectNumber,
@@ -28,7 +47,7 @@ function check_fields(row, fields, values, queries, row_ind, given){
             var given_str = '';
             if (given)
                 given_str = " given " + given;
-            var query = rf.make_query(row, fields[i], "Should not be "+ value_string + given_str, row_ind ); 
+            var query = rf.make_query(row, "Item " + hr_names[fields[i]], "Should not be "+ value_string + given_str, row_ind ); 
             queries.push(query);
             return true;
         }
@@ -58,7 +77,7 @@ module.exports = {
                     'caarms_06','caarms_07','caarms_08','caarms_09',
                     'caarms_10','caarms_11','caarms_12','caarms_13',
                     'caarms_14','caarms_15','caarms_16','caarms_17'];
-                    check_fields(data[i], other_fields, ['1','0'], queries, row_ind, "item A1 is No (caarms_01 is 0)");
+                    check_fields(data[i], other_fields, ['1','0'], queries, row_ind, "item A1 is No (0)");
                     
                     if (data[i].caarms_18!='0')
                         queries.push(rf.make_query(data[i], 'Item E', "Should be No (0) given item A1 is No", row_ind));

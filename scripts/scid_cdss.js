@@ -28,10 +28,15 @@ module.exports = {
                 if (cdss_data[i].VisitLabel=='BL' || cdss_data[i].VisitLabel=='C'){
                     var cdss_row = get_row(cdss_data[i], raw_cdss.data);
                     
-                    if (cdss_data[i].C_CDSTOTAL>8){
+                    if (cdss_data[i].C_CDSTOTAL>9){
                         var scid_row = get_row(cdss_data[i], raw_scid.data) - 2;
                         if (raw_scid.data[ scid_row ].scid_mood_depression=='71.9')
-                            queries.push(rf.make_query(cdss_data[i], 'SCID Current Depressive Disorder', "Possible missing code given CDSS score > 8", scid_row+2));
+                            queries.push(rf.make_query(cdss_data[i], 'SCID Current Depressive Disorder', "Possible missing depression code given CDSS score > 9", scid_row+2));
+                    }
+                    else {
+                        var scid_row = get_row(cdss_data[i], raw_scid.data) - 2;
+                        if (raw_scid.data[ scid_row ].scid_mood_depression!='71.9')
+                            queries.push(rf.make_query(cdss_data[i], 'CDSS Total Score', "Possible inappropriate code given CDSS score < 10", scid_row+2));
                     }                
                 }
             }

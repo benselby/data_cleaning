@@ -69,7 +69,7 @@ module.exports = {
                 else if (data[i].pdc_a1=='0') {                 
                     if (data[i]['pdc_a7']=='1'){
                         bad_bips.push( row_ind );
-                        rf.add_query(data[i], 'pdc_a7', "Should be 1 given pdc_a1 is 0", row_ind);
+                        queries.push( rf.make_query(data[i], 'pdc_a7', "Should be No (0) given pdc_a1 is No (0)", row_ind));
                     }
                     if ( check_fields( data[i], ['pdc_a2', 'pdc_a3','pdc_a4','pdc_a5','pdc_a6','pdc_a8'], ['1','0'], queries, row_ind, "A1 is No (0)" ) ){
                         bad_bips.push(row_ind);
@@ -80,7 +80,7 @@ module.exports = {
                 for (j in targets){
                     if (data[i][targets[j]] == '0' && data[i].VisitLabel!='C'){
                         bad_bips.push( row_ind );
-                        queries.push( rf.make_query( data[i], targets[j], "Should not be 0 unless participant converted", row_ind ));
+                        queries.push( rf.make_query( data[i], targets[j], "Should not be No (0)", row_ind ));
                     }
                 }
                 
@@ -116,10 +116,12 @@ module.exports = {
                         queries.push( rf.make_query( data[i], 'B5 (pdc_b5)', "Should be No (0) given B1 is No (0)", row_ind ));
                     }
                 } else {
-                    if (data[i].pdc_b2=='0'){
-                        queries.push( rf.make_query( data[i], 'B2 (pdc_b2)', "Should be Yes (1) ", row_ind ));                   
-                    }
-                }                                
+//                    if (data[i].pdc_b2=='0'){
+//                        queries.push( rf.make_query( data[i], 'B2 (pdc_b2)', "Should be Yes (1) - ", row_ind ));                   
+//                    }
+                }                
+                
+//                if (data[i]['pdc_a7']=='1' ||                 
                 
                 if (data[i]['pdc_b5']=='1'){                    
                     if (check_fields(data[i], ['pdc_b1','pdc_b2','pdc_b3','pdc_b4'], ['','0'], queries, row_ind, 'B5 is Yes (1)'))

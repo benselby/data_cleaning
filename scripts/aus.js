@@ -10,6 +10,19 @@ function get_row( row, raw_data ){
                        raw_data);
 }
 
+// Human-readable field names dictionary
+hr_names = {'1':'Tobacco',
+            '2':'Alcohol',
+            '3':'Marijuana/THC',
+            '4':'Cocaine',
+            '5':'Opiates',
+            '6':'PCP',
+            '7':'Amphetamines',
+            '8':'MDMA/Ecstasy',
+            '9':'GHB/Rohypnol',
+            '10':'Huffing',
+            '11':'Hallucinogens',
+            '12':'Other substances'};
 
 module.exports = {
     check_data: function(url) {
@@ -20,11 +33,6 @@ module.exports = {
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter_data_quality(raw_data.data);
         
@@ -35,12 +43,18 @@ module.exports = {
                 
                 var drugs = ['1','2','3','4','5','6','7','8','9','10','11','12'];                               
                 for (j in drugs){
+                    var freq_str = hr_names[drugs[j]] + ' - frequency (AusDusFreq' + drugs[j] + ')';
+                    var use_str = hr_names[drugs[j]] + ' - usage rating (AusDus' + drugs[j] + ')';
+                    
                     if (data[i]['AusDus'+drugs[j]]=='1'&&data[i]['AusDusFreq'+drugs[j]]!='0')
-                        queries.push(rf.make_query(data[i], 'AusDusFreq'+drugs[j], "Should be 0 given no use of drug type", row_ind));   
+                        queries.push(rf.make_query(data[i], freq_str, "Should be 0 given no use of drug type", row_ind));   
+                    else if (data[i]['AusDus'+drugs[j]] > 1 &&data[i]['AusDusFreq'+drugs[j]]=='0')
+                        queries.push(rf.make_query(data[i], freq_str, "Should not be 0 given use rating is  greater than 1", row_ind));   
+                    
                     if (data[i]['AusDus'+drugs[j]]=='5')
-                        queries.push(rf.make_query(data[i], 'AusDus'+drugs[j], "Drug dependence with institutionalization", row_ind));              
+                        queries.push(rf.make_query(data[i], use_str, "Drug dependence with institutionalization", row_ind));              
                     if (data[i]['AusDusFreq'+drugs[j]]=='5' && data[i]['AusDus'+drugs[j]] <= 2)
-                        queries.push(rf.make_query(data[i], 'AusDus'+drugs[j], "Frequency of 5 indicates abuse (use rating should be 3 or higher)", row_ind));                                  
+                        queries.push(rf.make_query(data[i], use_str, "Frequency of 5 indicates abuse (use rating should be 3 or higher)", row_ind));                                  
                 }
             }
         }

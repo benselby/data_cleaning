@@ -19,23 +19,21 @@ module.exports = {
         
         var queries = [];
         
-        raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
+        raw_data = Baby.parseFiles( url, {header: true} ); 
             
         data = rf.filter_data_quality(raw_data.data);
         
         if (data.length>1){
             // Run the rest of the data checks here
-            var row_ind = get_row(data[i], raw_data.data);
             
-            if ( data[i].scid_diag_psych_disorder!='71.9') {
-                if (data[i].VisitLabel!='C')
-                    queries.push(rf.make_query(data[i], 'Psychotic diagnosis code', "Participant should be labelled conversion with a SCID diagnosis.", row_ind));          
-            } 
+            data.forEach( function(row) {
+                var row_ind = get_row(row, raw_data.data);
+                
+                if ( row.scid_diag_psych_disorder!='71.9') {
+                    if (row.VisitLabel!='C')
+                        queries.push(rf.make_query(row, 'Psychotic diagnosis code', "Participant should be labelled conversion with a SCID diagnosis.", row_ind));          
+                } 
+            });
         }
         return queries;
     }

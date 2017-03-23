@@ -18,6 +18,18 @@ function check_DOB( array, target, raw_data, queries ) {
         rf.write_report( util.format("All %s are in format \'15-XX-XXXX\'", target));
 };
 
+function check_birth_year(array, raw_data, queries) {
+    for (var i=0; i<array.length; i++){
+        var birth_date = new Date( array[i]['demo_dob'].replace(/-/g, ' ') );
+        var birth_year = birth_date.getFullYear();
+        var row_ind = rf.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
+        if (birth_year>2008) {
+            var q_str = "Birth year of " + birth_year + " is inadmissable";
+            queries.push(rf.make_query(array[i], 'demo_dob', q_str, row_ind));
+        }        
+    }
+}
+
 module.exports = {
     check_data: function(url) {
         
@@ -45,6 +57,7 @@ module.exports = {
             rf.write_report( util.format( "Using %d of %d rows based on data quality levels 3,4,5", data.length, raw_data.data.length-1));
         }
         
+        check_birth_year(data, raw_data, queries);
         check_DOB(data, "demo_dob", raw_data, queries);
         rf.check_date_diff( data, 'demo_dob', 'DataCollectedDate', 'demo_age_ym', raw_data, queries);
         check_DOB(data, "demo_dad_dob", raw_data, queries);

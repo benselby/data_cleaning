@@ -12,19 +12,14 @@ module.exports = {
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter_data_quality(raw_data.data);
         
         if (data.length>1){
             
-            var has_12 = rf.filter( data, function(pt) {
-                return pt.VisitLabel=='12';
-            })
+            var has_12 = data.filter( function(pt) {
+                return pt.VisitLabel=='12'
+            });
             
             var bad = [];
             for (var i=0; i<has_12.length; i++){
@@ -32,11 +27,17 @@ module.exports = {
                                           "SubjectNumber":has_12[i].SubjectNumber,
                                           "VisitLabel":"BL"}, 
                                           data);
+                
                 if (bl.gaf_01 != has_12[i].gaf_02){
                     bad.push( rf.get_row({"SiteNumber":has_12[i].SiteNumber,
                                           "SubjectNumber":has_12[i].SubjectNumber,
                                           "VisitLabel":"BL"}, 
-                                          raw_data.data)); 
+                                          raw_data.data));                                           
+                   var row_ind = rf.get_row({"SiteNumber":has_12[i].SiteNumber,
+                                          "SubjectNumber":has_12[i].SubjectNumber,
+                                          "VisitLabel":"12" },
+                                          raw_data.data)
+                   queries.push( rf.make_query(has_12[i], 'GAF score 12 months ago', "Does not match baseline score of "+bl.gaf_01, row_ind ) );
                 }
             }
             if (bad.length>0)
