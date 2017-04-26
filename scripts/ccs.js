@@ -70,10 +70,10 @@ module.exports = {
                     queries.push(rf.make_query(data[i], 'Current clinical state', "Should not be 4 unless participant is converted", row_ind));
                     
                 if (data[i].ccs_02!='')
-                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be N/A (cancel code V5)", row_ind));
+                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be blank (cancel code V5)", row_ind));
                     
                 if (data[i].ccs_03!='')
-                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be N/A (cancel code V5)", row_ind));
+                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be blank (cancel code V5)", row_ind));
             }
         }
         

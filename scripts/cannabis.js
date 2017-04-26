@@ -68,10 +68,10 @@ module.exports = {
                             queries.push(rf.make_query(data[i], c+fields[j], "Should be NA if not a cannabis user", row_ind));              
                     }   
                 } else if (data[i][c+'1']=='1'){
-                    if (data[i][c+'2']=='2' && data[i][c+'3']>0)
-                        queries.push(rf.make_query(data[i], c+'2', "Participant should be a current cannabis user if they have used in the past 6 months", row_ind));           
-                    else if (data[i][c+'2']!='2' && data[i][c+'3']=='0')
-                        queries.push(rf.make_query(data[i], c+'2', "Participant should not be a current cannabis user if they have not used in the past 6 months", row_ind));
+//                    if (data[i][c+'2']=='2' && data[i][c+'3']>0)
+//                        queries.push(rf.make_query(data[i], c+'2', "Participant should be a current cannabis user if they have used in the past 6 months", row_ind));           
+//                    else if (data[i][c+'2']!='2' && data[i][c+'3']=='0')
+//                        queries.push(rf.make_query(data[i], c+'2', "Participant should not be a current cannabis user if they have not used in the past 6 months", row_ind));
                         
                     if (data[i][c+'2']=='1'){
                         if (data[i][c+'5']=='8')

@@ -20,7 +20,7 @@ function check_baseline(measure, data, raw, queries){
         if (parseInt(pt[sops]) < 3 ){
             if (pt[odc] != '1') {
                 queries.push( rf.make_query(pt, measure + ' onset date code', "Should be 1 given severity < 3", row_ind) );
-                return true
+                return true;
             }
             if (pt[onset] != ""){
                 queries.push( rf.make_query(pt, measure + ' onset date', "Should be NA given severity < 3", row_ind) );
@@ -238,7 +238,7 @@ module.exports = {
             var row_ind = rf.get_row( nonenhanced[i], raw_data.data );
             for (m in prefixes) {
                 measure = prefixes[m] + "_SOPS";
-                if (nonenhanced[i][measure] != ""){
+                if (nonenhanced[i][measure] != "" && nonenhanced[i].VisitLabel!='BL'){
                     queries.push( rf.make_query(nonenhanced[i], prefixes[m], "Items N1-G4 should be blank since participant is non-enhanced", row_ind) );
                     break;
                 }

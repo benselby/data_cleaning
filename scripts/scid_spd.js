@@ -52,7 +52,8 @@ module.exports = {
                 if (scid_row.scid_schizotypal=='71.9'){                    
                     if (count >= 5)
                         queries.push(rf.make_query(scid_row, 'SCID Schizotypal code', "Possibly missing given total SPDC > 4",scid_ind+2));
-                } else {
+                } 
+                else if (scid_row.scid_schizotypal!=''){
                     if (count < 5)
                         queries.push(rf.make_query(scid_row, 'SCID Schizotypal code', "Possibly incorrect given total SPDC < 5",scid_ind+2));
                 }

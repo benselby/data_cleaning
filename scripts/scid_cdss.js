@@ -10,6 +10,8 @@ function get_row( row, raw_data ){
                        raw_data);
 }
 
+remission_codes = ['296.25','296.26','296.35','296.36'];
+
 module.exports = {
     check_data: function(scid_url, cdss_url) {
         
@@ -35,7 +37,7 @@ module.exports = {
                     }
                     else {
                         var scid_row = get_row(cdss_data[i], raw_scid.data) - 2;
-                        if (raw_scid.data[ scid_row ].scid_mood_depression!='71.9')
+                        if (raw_scid.data[ scid_row ].scid_mood_depression!='71.9' && remission_codes.indexOf(raw_scid.data[ scid_row ].scid_mood_depression) == -1)                        
                             queries.push(rf.make_query(cdss_data[i], 'CDSS Total Score', "Possible inappropriate code given CDSS score < 10", scid_row+2));
                     }                
                 }

@@ -3,19 +3,29 @@ var util = require('util');
 var fs = require('fs');
 var rf = require('./reports');
 
-function check_DOB( array, target, raw_data, queries ) {
+field_dict = {'demo_dad_dob':'Napls3Demo.Demo_19',
+            'demo_mom_dob':'Napls3Demo.Demo_21'};
+
+function check_DOB( array, target, raw_data, queries, miss_data ) {
     var bad = [];
     for (var i=0; i<array.length; i++){
         var row_ind = rf.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
         if (array[i][target].substring(0,2) != '15') {
-            queries.push(rf.make_query(array[i], target, "Should be in format 15-MM-YYYY", row_ind));
-            bad.push( row_ind );
+            if (array[i][target]=='') {
+                var obj_name = 'NAPLS3-0' + array[i].SiteNumber + '-0' + array[i].SubjectNumber;
+                var fields = miss_data.filter(function(row){ 
+                        return row.CALC_OBJECT_NAME==obj_name; 
+                    });
+                if ( fields.length > 0 ) {
+//                    console.log("Demographics: missing data approved for " + obj_name);
+                    continue;
+                } else
+                    queries.push(rf.make_query(array[i], target, "Should not be blank without corresponding missing code V3", row_ind));    
+            }         
+            else     
+                queries.push(rf.make_query(array[i], target, "Day of date should be 15", row_ind));
         }
     }
-    if (bad.length > 0)
-        rf.write_report( util.format("Birth day (%s) not 15 for the following %d rows: %s ", target, bad.length,  bad.toString() ));
-    else
-        rf.write_report( util.format("All %s are in format \'15-XX-XXXX\'", target));
 };
 
 function check_birth_year(array, raw_data, queries) {
@@ -39,17 +49,22 @@ module.exports = {
         var queries = [];
         
         raw_data = Baby.parseFiles( url, {header: true} );
-//        if (raw_data.errors) {
-//            console.log("Parsed file %s and found the following error:", url);
-//            console.log( "\"", raw_data.errors[0].message, "\"" );
-//        } else
-//            console.log( "Parsed file %s and found no errors.", url );  
             
         data = rf.filter(raw_data.data, function(pt){
             return pt.DataQuality==3||pt.DataQuality==4||pt.DataQuality==5
         });
-
-            
+        
+        var m_data = Baby.parseFiles( './data/Missing_Data.csv', {header:true} ).data;
+        var miss_data = [];
+        
+        if (m_data.length==0)
+            console.log( "Demographics: failed to load missing data sheet! Proceeding");
+        else {        
+            miss_data = m_data.filter( function(row) { return row.TASK_NAME=='Demographics'; } ); 
+            if (miss_data.length==0)
+                console.log( "Demographics: found no missing data - proceeding without.");
+        }
+                
         if (data.length < 1) {
             rf.write_report( "No rows with appropriate data quality found." );
             return -1;
@@ -58,11 +73,11 @@ module.exports = {
         }
         
         check_birth_year(data, raw_data, queries);
-        check_DOB(data, "demo_dob", raw_data, queries);
+        check_DOB(data, "demo_dob", raw_data, queries, miss_data);
         rf.check_date_diff( data, 'demo_dob', 'DataCollectedDate', 'demo_age_ym', raw_data, queries);
-        check_DOB(data, "demo_dad_dob", raw_data, queries);
+        check_DOB(data, "demo_dad_dob", raw_data, queries, miss_data);
         rf.check_date_diff( data, 'demo_dad_dob', 'DataCollectedDate', 'demo_dad_age', raw_data, queries);
-        check_DOB(data, "demo_mom_dob", raw_data, queries);
+        check_DOB(data, "demo_mom_dob", raw_data, queries, miss_data);
         rf.check_date_diff( data, 'demo_mom_dob', 'DataCollectedDate', 'demo_mom_Age', raw_data, queries);
         
         return queries;

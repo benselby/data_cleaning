@@ -42,7 +42,6 @@ app.get('/queries/:name', function(req, res){
     if (!found){
         console.log("404 - not found");
     }
-    
 });
 
 app.get('/Excel', function(req, res){
@@ -86,7 +85,11 @@ app.get('/Excel', function(req, res){
             sheets.push(conf);        
         }       
         var result = node_excel.execute(sheets);
-        var filename = 'output/' + site_names[i] + '.xlsx';
+        var monthNames = ["Jan", "Feb", "Mar", "Apr", "May", "Jun",
+  "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"
+];
+        var now = new Date();        
+        var filename = 'output/' + site_names[i] + '_' + monthNames[now.getMonth()] + now.getFullYear() +'.xlsx';
       	fs.writeFileSync(filename, result, 'binary');
       	console.log("Wrote queries for " + site_names[i] + " to " + filename);
   	}
