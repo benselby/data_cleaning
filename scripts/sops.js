@@ -117,15 +117,38 @@ function check_followup(measure, data, raw, queries) {
             var pt_data = data.filter( function(p) { return p["SiteNumber"] == site && p["SubjectNumber"]== subj} );
 
             if (pt_data.length>1){
+                // first, sort the data by date
+                function compare_date(a,b){
+                    var date_a = new Date(a.DataCollectedDate.replace(/-/g," "));
+                    var date_b = new Date(b.DataCollectedDate.replace(/-/g," "));
+                    
+                    if (date_a.getTime() > date_b.getTime())
+                        return 1;
+                    if (date_a.getTime() < date_b.getTime())
+                        return -1;
+                    return 0;
+                }
+                pt_data.sort(compare_date);
+                
+//                if (pt_data.filter(function(pt){ return pt.VisitLabel=='OS1'; }).length>0){
+//                    console.log("************" + pt_data[0].SiteNumber + '-' + pt_data[0].SubjectNumber);
+//                    
+//                    pt_data.forEach( function(pt) {var dcd = new Date(pt.DataCollectedDate.replace(/-/g," ")); console.log(pt.VisitLabel + '-' + dcd);} );
+//                }
+            
                 for (var j=1; j<pt_data.length; j++) {
                     var row_ind = rf.get_row( pt_data[j], raw.data );
                     // ARE THE DATA ALWAYS SORTED BY VISIT NUMBER? - seems like yes - this script depends on it.
-                    if (pt_data[j][measure+'_SOPS'] > 2) {
+                    if (pt_data[j][measure+'_SOPS'] > 2) {                        
                         var earlier_onset = false;
                         var visit_label = '';
+                        if (pt_data[j].SubjectNumber=='322' && pt_data[j].SiteNumber=='3' && pt_data[j].Visit=='OS1')
+                                console.log("*********************" + pt_data[j].VisitLabel);
                         for (var k=0; k<j; k++){
                             if (pt_data[k][measure+'_SOPS']>2){
                                 earlier_onset=true;
+                                if (pt_data[j].SubjectNumber=='322' && pt_data[j].SiteNumber=='3' && pt_data[j]=='OS1')
+                                    console.log("TRUE");
                                 visit_label = pt_data[k].VisitLabel;
                                 break;
                             }
@@ -141,7 +164,8 @@ function check_followup(measure, data, raw, queries) {
                                 str = util.format("Should be N/A given earlier recorded onset at %s", visit_label);
                                 queries.push( rf.make_query(pt_data[j], measure + ' onset date', str, row_ind) );
                             }
-                            else if (pt_data[j][measure+"_SOPS"] <= pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] != ''){
+                            
+                            if (pt_data[j][measure+"_SOPS"] <= pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] != ''){
                                    queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should be N/A given severity did not increase", row_ind) );  
                             }
                             else if (pt_data[j][measure+"_SOPS"] > pt_data[j-1][measure+"_SOPS"] && pt_data[j][measure+"_DateOfIncrease"] == ''){
@@ -151,7 +175,15 @@ function check_followup(measure, data, raw, queries) {
                         } else {
                             if (pt_data[j][measure+'_OnsetDateCode'] == 1 ) { 
                                 queries.push( rf.make_query(pt_data[j], measure + ' onset date code', "Should not be 1 (N/A) given severity > 2", row_ind) );
-                            }                           
+                            } 
+                            
+                            if (pt_data[j][measure+'_DateOfIncrease']!=''){
+                                queries.push( rf.make_query(pt_data[j], measure + ' date of increase', "Should be N/A given no prior onset recorded", row_ind) );  
+                            }
+                            
+                            if (pt_data[j][measure+'_OnsetDate'] == '' ) {  
+                                queries.push( rf.make_query(pt_data[j], measure + ' onset date', "Should not be N/A given severity > 2", row_ind) );  
+                            }                    
                         }
                         
                     } else {
@@ -211,7 +243,7 @@ module.exports = {
         
         if (data.length>1){
             var baseline = rf.filter(data, function(pt){
-                return pt.VisitNumber=="1"
+                return pt.VisitLabel=="BL"
             });
             
             var measures = ["P1","P2","P3","P4","P5"];
@@ -238,7 +270,7 @@ module.exports = {
             var row_ind = rf.get_row( nonenhanced[i], raw_data.data );
             for (m in prefixes) {
                 measure = prefixes[m] + "_SOPS";
-                if (nonenhanced[i][measure] != "" && nonenhanced[i].VisitLabel!='BL'){
+                if (nonenhanced[i][measure] != "" && nonenhanced[i].VisitLabel!='BL' && nonenhanced[i].VisitLabel!='C'){
                     queries.push( rf.make_query(nonenhanced[i], prefixes[m], "Items N1-G4 should be blank since participant is non-enhanced", row_ind) );
                     break;
                 }

@@ -143,23 +143,30 @@ module.exports = {
         return passed;
     },
     
-    check_date_diff: function(array, date1, date2, diff, raw_data, queries){
+    check_date_diff: function(array, birth_date, collected_date, diff, raw_data, queries){
         var bad_diffs = [];
         for (var i=0; i<array.length; i++){
             var row_ind = this.get_row( {'SiteNumber':array[i].SiteNumber,                   'SubjectNumber':array[i].SubjectNumber}, raw_data.data );
-            if (array[i][date1]==''||array[i][date2]=='')
+            if (array[i][birth_date]==''||array[i][collected_date]=='')
                 continue;            
-            var d1 = new Date(array[i][date1].replace(/-/g," "));
-            var d2 = new Date(array[i][date2].replace(/-/g, " "));
-            var timeDiff = Math.abs(d2.getTime() - d1.getTime());
-            var diffYears = Math.floor(timeDiff / (1000*3600*24*365) ); 
-            
+            var bd = new Date(array[i][birth_date].replace(/-/g," "));
+            var cd = new Date(array[i][collected_date].replace(/-/g, " "));
+//            var timeDiff = Math.abs(d2.getTime() - d1.getTime());
+//            var diffYears = Math.floor(timeDiff / (1000*3600*24*365) ); 
+            var diffYears = cd.getFullYear()-bd.getFullYear();
+            var c_month = cd.getMonth();
+            var b_month = bd.getMonth();
+            var c_day = cd.getDate();
+            var b_day = bd.getDate();
+            if ( c_month<b_month || (c_month==b_month && c_day<b_day) )
+                diffYears--;
+                    
             if (isNaN(diffYears))
-                console.log(array[i][date1], '//', d1, d2, timeDiff, array[i][diff]);
+                console.log(array[i][birth_date], '//', bd, cd, timeDiff, array[i][diff]);
             
-            if (diffYears!=array[i][diff]){
+            if (diffYears!=array[i][diff]&& diffYears>0){
                 bad_diffs.push(row_ind);                
-                queries.push( this.make_query(array[i], diff, "Incorrect age based on "+date1+" and "+date2 + " - should be "+diffYears, row_ind));
+                queries.push( this.make_query(array[i], diff, "Incorrect age based on "+birth_date+" and "+collected_date + " - should be "+diffYears + " instead of " + array[i][diff], row_ind));
             }
         }
         if (bad_diffs.length!=0)

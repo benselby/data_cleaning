@@ -29,15 +29,20 @@ function check_DOB( array, target, raw_data, queries, miss_data ) {
 };
 
 function check_birth_year(array, raw_data, queries) {
+    var fields = ['demo_dob', 'demo_mom_dob', 'demo_dad_dob'];
+    
     for (var i=0; i<array.length; i++){
-        var birth_date = new Date( array[i]['demo_dob'].replace(/-/g, ' ') );
-        var birth_year = birth_date.getFullYear();
-        var row_ind = rf.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
-        if (birth_year>2008) {
-            var q_str = "Birth year of " + birth_year + " is inadmissable";
-            queries.push(rf.make_query(array[i], 'demo_dob', q_str, row_ind));
-        }        
+        for (var j=0; j<fields.length; j++){
+                var birth_date = new Date( array[i][fields[j]].replace(/-/g, ' ') );
+                var birth_year = birth_date.getFullYear();
+                var row_ind = rf.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
+                if (birth_year>2008) {
+                    var q_str = "Birth year of " + birth_year + " is inadmissable";
+                    queries.push(rf.make_query(array[i], fields[j], q_str, row_ind));
+                }        
+        }
     }
+    
 }
 
 module.exports = {
