@@ -54,7 +54,7 @@ module.exports = {
                     if (data[i]['AusDus'+drugs[j]]=='5')
                         queries.push(rf.make_query(data[i], use_str, "Drug dependence with institutionalization", row_ind));              
                     if (data[i]['AusDusFreq'+drugs[j]]=='5' && data[i]['AusDus'+drugs[j]] <= 2)
-                        queries.push(rf.make_query(data[i], use_str, "Frequency of 5 indicates abuse (use rating should be 3 or higher)", row_ind));                                  
+                        queries.push(rf.make_query(data[i], use_str, "Frequency of 5 indicates possible abuse (please check rate of use)", row_ind));                                  
                 }
             }
         }

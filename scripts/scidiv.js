@@ -30,7 +30,7 @@ module.exports = {
                 var row_ind = get_row(row, raw_data.data);
                 
                 if ( row.scid_diag_psych_disorder!='71.9') {
-                    if (row.VisitLabel!='C')
+                    if (row.VisitLabel!='C' && row.VisitLabel!='PC')
                         queries.push(rf.make_query(row, 'Psychotic diagnosis code', "Participant should be labelled conversion with a SCID diagnosis.", row_ind));          
                 } 
             });

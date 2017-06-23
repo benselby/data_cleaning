@@ -1,116 +1,284 @@
 [
-    {"name":"AUS-DUS",
+    {"study":"NAPLS3",
+    "name":"AUS-DUS",
     "script_path":"./scripts/aus.js",
     "url": ["./data/N3_AUS_DUS.csv"]
     },
     
-    {"name":"CAARMS",
+    {"study":"NAPLS3",
+    "name":"CAARMS",
     "script_path":"./scripts/caarms.js",
     "url": ["./data/N3_CARRMS.csv"]
     },
     
-    {"name":"Cannabis",
+    {"study":"NAPLS3",
+    "name":"Cannabis",
     "script_path":"./scripts/cannabis.js",
     "url": ["./data/N3_Cannabis.csv"]
     },
     
-    {"name":"CBI",
+    {"study":"NAPLS3",
+    "name":"CBI",
     "script_path":"./scripts/cbi.js",
     "url": ["./data/N3_CBI.csv"]
     },
     
-    {"name":"COGDIS",
+    {"study":"NAPLS3",
+    "name":"COGDIS",
     "script_path":"./scripts/cogdis.js",
     "url": ["./data/N3_COGDIS.csv"]
     },
     
-    {"name":"Conversion",
+    {"study":"NAPLS3",
+    "name":"Conversion",
     "script_path":"./scripts/conversion.js",
     "url": ["./data/N3_Conversion.csv"]
     },
     
-    {"name":"Current Clinical State (CCS)",
+    {"study":"NAPLS3",
+    "name":"Current Clinical State (CCS)",
     "script_path":"./scripts/ccs.js",
     "url": ["./data/N3_CCS.csv"]
     },   
 
-    {"name":"Demographics",
+    {"study":"NAPLS3",
+    "name":"Demographics",
     "script_path":"./scripts/demographics.js",
     "url": ["./data/N3_ClientInfo.csv"]
     },
     
-    {"name":"GAF",
+    {"study":"NAPLS3",
+    "name":"GAF",
     "script_path":"./scripts/gaf.js",
     "url": ["./data/N3_GAF.csv"]
     },
     
-    {"name":"PDC - Baseline",
+    {"study":"NAPLS3",
+    "name":"PDC - Baseline",
     "script_path":"./scripts/pdc_bl.js",
     "url": ["./data/N3_PDC_BL.csv"]
     },
     
-    {"name":"PDC - Follow-up",
+    {"study":"NAPLS3",
+    "name":"PDC - Follow-up",
     "script_path":"./scripts/pdc_fu.js",
     "url": ["./data/N3_PDC.csv"]
     },
     
-    {"name":"SCID-IV",
+    {"study":"NAPLS3",
+    "name":"SCID",
     "script_path":"./scripts/scidiv.js",
     "url": ["./data/N3_SCIDIV.csv"]
     },
     
-    {"name":"SOPS",
+    {"study":"NAPLS3",
+    "name":"SOPS",
     "script_path":"./scripts/sops.js",
     "url": ["./data/N3_SOPS.csv"]
     },
     
-    {"name":"SPD",
+    {"study":"NAPLS3",
+    "name":"SPD",
     "script_path":"./scripts/spdc.js",
     "url": ["./data/N3_SPDC.csv"]
     },
 
-    {"name":"Trauma",
+    {"study":"NAPLS3",
+    "name":"Trauma",
     "script_path":"./scripts/trauma.js",
     "url": ["./data/N3_Trauma.csv"]
     },    
     
-    {"name":"AUS-DUS & Cannabis",
+    {"study":"NAPLS3",
+    "name":"AUS-DUS and Cannabis",
     "script_path":"./scripts/aus_cannabis.js",
     "url": ["./data/N3_AUS_DUS.csv","./data/N3_Cannabis.csv"]
     },
     
-    {"name":"PDC & SPDC",
+    {"study":"NAPLS3",
+    "name":"PDC and SPDC",
     "script_path":"./scripts/pdc_spd.js",
     "url": ["./data/N3_SPDC.csv","./data/N3_PDC.csv"]
     },
     
-    {"name":"SCID & CDSS",
+    {"study":"NAPLS3",
+    "name":"SCID and CDSS",
     "script_path":"./scripts/scid_cdss.js",
     "url": ["./data/N3_SCIDIV.csv","./data/N3_CDSS.csv"]
     },
     
-    {"name":"SCID & AUS-DUS",
+    {"study":"NAPLS3",
+    "name":"SCID and AUS-DUS",
     "script_path":"./scripts/scid_aus.js",
     "url": ["./data/N3_SCIDIV.csv","./data/N3_AUS_DUS.csv"]
     },
     
-    {"name":"SCID & Conversion",
+    {"study":"NAPLS3",
+    "name":"SCID and Conversion",
     "script_path":"./scripts/scid_conversion.js",
     "url": ["./data/N3_SCIDIV.csv","./data/N3_Conversion.csv"]
     }, 
     
-    {"name":"SCID & SPDC",
+    {"study":"NAPLS3",
+    "name":"SCID and SPDC",
     "script_path":"./scripts/scid_spd.js",
     "url": ["./data/N3_SCIDIV.csv","./data/N3_SPDC.csv"]
     },
     
-    {"name":"SOPS & Conversion",
+    {"study":"NAPLS3",
+    "name":"SOPS and Conversion",
     "script_path":"./scripts/sops_conv.js",
     "url": ["./data/N3_SOPS.csv","./data/N3_Conversion.csv"]
     },
     
-    {"name":"SOPS & PDC",
+    {"study":"NAPLS3",
+    "name":"SOPS and PDC",
     "script_path":"./scripts/sops_pdc.js",
     "url": ["./data/N3_SOPS.csv","./data/N3_PDC.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"AUS-DUS",
+    "script_path":"./scripts/regroup/aus.js",
+    "url": ["./regroup/RGRP_AUS_DUS.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"CBI - Childhood Brain Injury",
+    "script_path":"./scripts/regroup/cbi.js",
+    "url": ["./regroup/RGRP_CBI.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"CCS - Current Clinical State",
+    "script_path":"./scripts/regroup/ccs.js",
+    "url": ["./regroup/RGRP_CCS.csv"]
+    },
+           
+    {"study":"ReGroup",
+    "name":"Demographics",
+    "script_path":"./scripts/regroup/demo.js",
+    "url": ["./regroup/RGRP_DEMO.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"Global Assessment of Functioning - GAF",
+    "script_path":"./scripts/regroup/gaf.js",
+    "url": ["./regroup/RGRP_GAF.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"PDC - Baseline",
+    "script_path":"./scripts/regroup/pdc_bl.js",
+    "url": ["./regroup/RGRP_PDC_BL.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"PDC - Follow-up",
+    "script_path":"./scripts/regroup/pdc_fu.js",
+    "url": ["./regroup/RGRP_PDC.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"SCID",
+    "script_path":"./scripts/regroup/scidiv.js",
+    "url": ["./regroup/RGRP_SCIDIV.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"SOPS",
+    "script_path":"./scripts/regroup/sops.js",
+    "url": ["./regroup/RGRP_SOPS.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"SPDC",
+    "script_path":"./scripts/regroup/spdc.js",
+    "url": ["./regroup/RGRP_SPDC.csv"]
+    },
+    
+    {"study":"ReGroup",
+    "name":"Trauma",
+    "script_path":"./scripts/regroup/trauma.js",
+    "url": ["./regroup/RGRP_Trauma.csv"]
+    },
+        
+    {"study":"PROCAN",
+    "name":"Alcohol and Drug Use Scale",
+    "script_path":"./scripts/PROCAN/aus_dus.js",
+    "url": ["./PROCAN/PCAN_AUS_DUS.csv"]
+    },    
+    
+    {"study":"PROCAN",
+    "name":"Cannabis",
+    "script_path":"./scripts/PROCAN/cannabis.js",
+    "url": ["./PROCAN/PCAN_Cannabis.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Current Clinical State (CCS)",
+    "script_path":"./scripts/PROCAN/ccs.js",
+    "url": ["./PROCAN/PCAN_CCS.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Demographics",
+    "script_path":"./scripts/PROCAN/demographics.js",
+    "url": ["./PROCAN/PCAN_DEMO.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"FIGS",
+    "script_path":"./scripts/PROCAN/figs.js",
+    "url": ["./PROCAN/PCAN_FIGS.csv"]
+    },
+       
+    {"study":"PROCAN",
+    "name":"GAF",
+    "script_path":"./scripts/PROCAN/gaf.js",
+    "url": ["./PROCAN/PCAN_GAF.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"PDC - Baseline",
+    "script_path":"./scripts/PROCAN/pdc_bl.js",
+    "url": ["./PROCAN/PCAN_PDC_BL.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"PDC - Follow-Up",
+    "script_path":"./scripts/PROCAN/pdc_fu.js",
+    "url": ["./PROCAN/PCAN_PDC.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"SCID-V",
+    "script_path":"./scripts/PROCAN/scid.js",
+    "url": ["./PROCAN/PCAN_SCIDIV.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"SOPS",
+    "script_path":"./scripts/PROCAN/sops.js",
+    "url": ["./PROCAN/PCAN_SOPS.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Stage of Risk",
+    "script_path":"./scripts/PROCAN/sor.js",
+    "url": ["./PROCAN/PCAN_SOR.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"SPDC",
+    "script_path":"./scripts/PROCAN/spdc.js",
+    "url": ["./PROCAN/PCAN_SPDC.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Trauma",
+    "script_path":"./scripts/PROCAN/trauma.js",
+    "url": ["./PROCAN/PCAN_Trauma.csv"]
     }
+    
 ]

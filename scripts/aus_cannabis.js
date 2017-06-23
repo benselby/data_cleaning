@@ -34,11 +34,11 @@ module.exports = {
                             
                 if (aus_row.AusDus3>=2){
                     if (can_row.cannabis_02!='1'){
-                        var str = "Should be 'current user' given AUS/DUS score of " + aus_row.AusDus3;
+                        var str = "Should be 'current user' given AUS/DUS usage score of " + aus_row.AusDus3;
                         queries.push(rf.make_query(can_row, 'Cannabis - current or past', str, can_ind+2));
                     }
                     if (can_row.cannabis_05>4){
-                        var str = "Should be more frequent given AUS/DUS score of " + aus_row.AusDus3;
+                        var str = "Should be more frequent given AUS/DUS usage score of " + aus_row.AusDus3;
                         queries.push(rf.make_query(can_row, 'Cannabis - frequency', str, can_ind+2));
                     }
                 } 

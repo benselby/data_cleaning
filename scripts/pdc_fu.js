@@ -212,7 +212,7 @@ module.exports = {
                 
                 if (data[i].pdc_b2=='0' && data[i].VisitLabel!='C'){
                     bad_aps.push(row_ind);
-                    queries.push(rf.make_query(data[i], 'pdc_b2', "Should not be 0 if participant is not converted", row_ind));
+                    queries.push(rf.make_query(data[i], 'pdc_b2', "Should be Yes (1) if symptoms are NOT better accounted for by DSM-V diagnosis", row_ind));
                 }
                 
                 if (data[i]['pdc_b5']=='1'){

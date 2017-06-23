@@ -1,0 +1,57 @@
+<!doctype html>
+
+<title>Data Quality Reports</title>
+<link rel="stylesheet" href="/datacleaning.css">
+
+<h1 id='study_name'></h1>
+<h1>Clinical Data Queries</h1>
+
+<div> 
+    <a href="http://localhost:3000/">(return to select study) </a>
+</div>
+
+<select id="file_select">
+    <option>Select a file/cross-check</option>
+</select>
+
+<div id="report_summary">
+    <div id="queries">
+        <h2 id="qname">No file selected.</h2>
+        <h3 id="status"></h3>
+        <div id="tools">
+            <br>
+            <span> Filter by site:
+            <select id="site_select">
+                <option value=0>All sites</option>
+                <option value=1>1. UCLA</option>
+                <option value=2>2. Emory</option>
+                <option value=3>3. Harvard</option>
+                <option value=4>4. Hillside</option>
+                <option value=5>5. UNC</option>
+                <option value=6>6. UCSD</option>
+                <option value=7>7. Calgary</option>
+                <option value=8>8. Yale</option>
+                <option value=9>9. UCSF</option>
+            </select>    
+            </span>            
+            <br>
+            
+            <form action="/Excel" method="get">
+                <button name="download">Download .xlsx</button>
+            </form>
+            
+        </div>
+        
+        <table id="qtable">
+            <tr>
+                <th>Row</th>
+                <th>Site</th>
+                <th>ID</th>
+                <th>Visit</th>
+                <th>Field</th>
+                <th>Query</th>
+            </tr>
+        </table>
+    </div>
+    <pre id="details"></pre>
+</div>

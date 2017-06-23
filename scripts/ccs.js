@@ -68,12 +68,14 @@ module.exports = {
                 
                 if (data[i].ccs_01=='4' && data[i].VisitLabel!='C')
                     queries.push(rf.make_query(data[i], 'Current clinical state', "Should not be 4 unless participant is converted", row_ind));
-                    
-                if (data[i].ccs_02!='')
-                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be blank (cancel code V5)", row_ind));
-                    
-                if (data[i].ccs_03!='')
-                    queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be blank (cancel code V5)", row_ind));
+                
+                if (data[i].VisitLabel!='C'){
+                    if (data[i].ccs_02!='')
+                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be blank (cancel code V5)", row_ind));
+                        
+                    if (data[i].ccs_03!='')
+                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be blank (cancel code V5)", row_ind));
+                }
             }
         }
         

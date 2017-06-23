@@ -81,26 +81,31 @@ module.exports = {
         return -1;
     },
     
-    filter_data_quality: function(data, quality_levels) {
-        
-        if (typeof quality_levels != "object"){
-            quality_levels = ['3','4','5'];
-        }
-        var passed = [];
-        for (var i=0; i<data.length; i++) {
-            if (quality_levels.indexOf(data[i].DataQuality) != -1)
-                passed.push(data[i]);
-        }
+//    filter_data_quality: function(data, quality_levels) {
+//        
+//        if (typeof quality_levels != "object"){
+//            quality_levels = ['3','4','5'];
+//        }
+//        var passed = [];
+//        for (var i=0; i<data.length; i++) {
+//            if (quality_levels.indexOf(data[i].DataQuality) != -1)
+//                passed.push(data[i]);
+//        }
 
-        if (passed.length < 1) {
-            this.write_report( "No rows with appropriate data quality found." );
-            return -1;
-        } else {
-            this.write_report( util.format( "Using %d of %d rows based on data quality levels %s", passed.length, data.length-1, quality_levels.toString()));
-        }       
-                
-        return passed;
-    }, 
+//        if (passed.length < 1) {
+//            this.write_report( "No rows with appropriate data quality found." );
+//            return -1;
+//        } else {
+//            this.write_report( util.format( "Using %d of %d rows based on data quality levels %s", passed.length, data.length-1, quality_levels.toString()));
+//        }       
+//                
+//        return passed;
+//    }, 
+    filter_data_quality: function(data, levels){
+        return data.filter( function(row) {
+            return ['3', '4', '5'].indexOf(row.DataQuality)!=-1;
+        });
+    },
 
     filter: function(array, test) {
         var passed = [];
