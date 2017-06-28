@@ -27,7 +27,7 @@ module.exports = {
             return pt.DataQuality==3||pt.DataQuality==4||pt.DataQuality==5
         });
         
-        var m_data = Baby.parseFiles( '../Missing_Data.csv', {header:true} ).data;
+        var m_data = Baby.parseFiles( './data/Missing_Data.csv', {header:true} ).data;
         var miss_data = [];
         
 //        if (m_data.length==0)

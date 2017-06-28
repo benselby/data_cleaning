@@ -1,7 +1,7 @@
 var Baby = require("babyparse");
 var util = require('util');
 var fs = require('fs');
-var rf = require('./reports');
+var rf = require('../reports');
 
 function get_row( row, raw_data ){
     return rf.get_row({"SiteNumber":row.SiteNumber,
