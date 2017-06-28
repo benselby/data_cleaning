@@ -6,6 +6,36 @@ var rf = require('./reports');
 field_dict = {'demo_dad_dob':'Napls3Demo.Demo_19',
             'demo_mom_dob':'Napls3Demo.Demo_21'};
 
+function check_date_diff(array, birth_date, collected_date, diff, raw_data, queries){
+    var bad_diffs = [];
+    for (var i=0; i<array.length; i++){
+        var row_ind = rf.get_row( {'SiteNumber':array[i].SiteNumber,                   'SubjectNumber':array[i].SubjectNumber}, raw_data.data );
+        if (array[i][birth_date]==''||array[i][collected_date]=='')
+            continue;            
+        var bd = new Date(array[i][birth_date].replace(/-/g," "));
+        var cd = new Date(array[i][collected_date].replace(/-/g, " "));
+    //            var timeDiff = Math.abs(d2.getTime() - d1.getTime());
+    //            var diffYears = Math.floor(timeDiff / (1000*3600*24*365) ); 
+        var diffYears = cd.getFullYear()-bd.getFullYear();
+        var c_month = cd.getMonth();
+        var b_month = bd.getMonth();
+        var c_day = cd.getDate();
+        var b_day = bd.getDate();
+        if ( c_month<b_month || (c_month==b_month && c_day<b_day) )
+            diffYears--;
+                
+        if (isNaN(diffYears))
+            console.log(array[i][birth_date], '//', bd, cd, timeDiff, array[i][diff]);
+        
+        if (diffYears!=array[i][diff]&& diffYears>0){
+            if (Math.abs(diffYears-array[i][diff])==1 && c_month==b_month)
+                continue;
+            else               
+                queries.push( rf.make_query(array[i], diff, "Incorrect age based on "+birth_date+" and "+collected_date + " - should be "+diffYears + " instead of " + array[i][diff], row_ind));
+        }
+    }
+};
+
 function check_DOB( array, target, raw_data, queries, miss_data ) {
     var bad = [];
     for (var i=0; i<array.length; i++){
@@ -79,11 +109,11 @@ module.exports = {
         
         check_birth_year(data, raw_data, queries);
         check_DOB(data, "demo_dob", raw_data, queries, miss_data);
-        rf.check_date_diff( data, 'demo_dob', 'DataCollectedDate', 'demo_age_ym', raw_data, queries);
+        check_date_diff( data, 'demo_dob', 'DataCollectedDate', 'demo_age_ym', raw_data, queries);
         check_DOB(data, "demo_dad_dob", raw_data, queries, miss_data);
-        rf.check_date_diff( data, 'demo_dad_dob', 'DataCollectedDate', 'demo_dad_age', raw_data, queries);
+        check_date_diff( data, 'demo_dad_dob', 'DataCollectedDate', 'demo_dad_age', raw_data, queries);
         check_DOB(data, "demo_mom_dob", raw_data, queries, miss_data);
-        rf.check_date_diff( data, 'demo_mom_dob', 'DataCollectedDate', 'demo_mom_Age', raw_data, queries);
+        check_date_diff( data, 'demo_mom_dob', 'DataCollectedDate', 'demo_mom_Age', raw_data, queries);
         
         return queries;
     }

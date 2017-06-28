@@ -100,7 +100,7 @@ app.get('/Excel', function(req, res){
                         }
                     }           
                 } else {
-                    conf.rows = [[null, null, null, null]];
+                    conf.rows = [['N/A', 'N/A', 'N/A', "No queries for this measure!"]];
                 }
                 console.log(conf.name, ':', conf.rows.length);
                 sheets.push(conf);

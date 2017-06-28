@@ -216,6 +216,18 @@
     },
     
     {"study":"PROCAN",
+    "name":"Childhood Brain Injury - CBI",
+    "script_path":"./scripts/PROCAN/cbi.js",
+    "url": ["./PROCAN/PCAN_CBI.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Columbia Suicide",
+    "script_path":"./scripts/PROCAN/columbia.js",
+    "url": ["./PROCAN/PCAN_CSSRS.csv"]
+    },
+    
+    {"study":"PROCAN",
     "name":"Current Clinical State (CCS)",
     "script_path":"./scripts/PROCAN/ccs.js",
     "url": ["./PROCAN/PCAN_CCS.csv"]
@@ -279,6 +291,12 @@
     "name":"Trauma",
     "script_path":"./scripts/PROCAN/trauma.js",
     "url": ["./PROCAN/PCAN_Trauma.csv"]
+    },
+    
+    {"study":"PROCAN",
+    "name":"Young Mania Scale",
+    "script_path":"./scripts/PROCAN/yms.js",
+    "url": ["./PROCAN/PCAN_YMS.csv"]
     }
     
 ]
