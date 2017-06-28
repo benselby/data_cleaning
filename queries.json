@@ -18,7 +18,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"CBI",
+    "name":"Childhood Brain Injury - CBI",
     "script_path":"./scripts/cbi.js",
     "url": ["./data/N3_CBI.csv"]
     },
@@ -48,7 +48,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"GAF",
+    "name":"Global Assessment of Functioning - GAF",
     "script_path":"./scripts/gaf.js",
     "url": ["./data/N3_GAF.csv"]
     },
@@ -78,7 +78,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"SPD",
+    "name":"SPDC",
     "script_path":"./scripts/spdc.js",
     "url": ["./data/N3_SPDC.csv"]
     },
@@ -246,7 +246,7 @@
     },
        
     {"study":"PROCAN",
-    "name":"GAF",
+    "name":"Global Assessment of Functioning - GAF",
     "script_path":"./scripts/PROCAN/gaf.js",
     "url": ["./PROCAN/PCAN_GAF.csv"]
     },
