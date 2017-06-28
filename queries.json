@@ -18,7 +18,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"Childhood Brain Injury - CBI",
+    "name":"Childhood Brain Injury",
     "script_path":"./scripts/cbi.js",
     "url": ["./data/N3_CBI.csv"]
     },
@@ -36,7 +36,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"Current Clinical State (CCS)",
+    "name":"Current Clinical State",
     "script_path":"./scripts/ccs.js",
     "url": ["./data/N3_CCS.csv"]
     },   
@@ -48,7 +48,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"Global Functioning - GAF",
+    "name":"Global Functioning",
     "script_path":"./scripts/gaf.js",
     "url": ["./data/N3_GAF.csv"]
     },
