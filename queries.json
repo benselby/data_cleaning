@@ -48,7 +48,7 @@
     },
     
     {"study":"NAPLS3",
-    "name":"Global Assessment of Functioning - GAF",
+    "name":"Global Functioning - GAF",
     "script_path":"./scripts/gaf.js",
     "url": ["./data/N3_GAF.csv"]
     },
@@ -162,7 +162,7 @@
     },
     
     {"study":"ReGroup",
-    "name":"Global Assessment of Functioning - GAF",
+    "name":"Global Functioning - GAF",
     "script_path":"./scripts/regroup/gaf.js",
     "url": ["./regroup/RGRP_GAF.csv"]
     },
@@ -246,7 +246,7 @@
     },
        
     {"study":"PROCAN",
-    "name":"Global Assessment of Functioning - GAF",
+    "name":"Global Functioning - GAF",
     "script_path":"./scripts/PROCAN/gaf.js",
     "url": ["./PROCAN/PCAN_GAF.csv"]
     },
