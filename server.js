@@ -221,16 +221,13 @@ app.get('/Excel', function(req, res){
                 return q.site==i+1;
             });
             
-            console.log("creating sheet for ", measure.name);
             var sheet = workbook.addWorksheet(measure.name);
             
-            console.log('setting some headers');
             sheet.cell(1,1).string('ID');
             sheet.cell(1,2).string('Visit');
             sheet.cell(1,3).string('Field');
             sheet.cell(1,4).string('Query');
             
-            console.log('filling the sheet');
             if (site_queries.length > 0){
                 site_queries.forEach( function(q, k) {
                     sheet.cell(k+2,1).string(q.id);
