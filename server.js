@@ -90,15 +90,28 @@ app.get('/Excel', function(req, res){
                             ];
                 
                 conf.rows = [];
-                if (query_info[j].queries.length!=0){            
-                    for (var k=0; k<query_info[j].queries.length; k++){
-                        if (query_info[j].queries[k].site==i+1){
-                            conf.rows.push( [query_info[j].queries[k].id, 
-                                             query_info[j].queries[k].visit,
-                                             query_info[j].queries[k].field,
-                                             query_info[j].queries[k].query] );
-                        }
-                    }           
+                if (query_info[j].queries.length!=0){       
+                    var site_queries = query_info[j].queries.filter( function (q) { 
+                        return q.site==i+1;
+                    });
+                    if (site_queries.length>0){
+                        site_queries.forEach( function (q) {
+                            conf.rows.push( [q.id, 
+                                             q.visit,
+                                             q.field,
+                                             q.query] );
+                        });
+                    } else {
+                        conf.rows.push(['N/A', 'N/A', 'N/A', "No queries for this measure!"]);
+                    }    
+//                    for (var k=0; k<query_info[j].queries.length; k++){
+//                        if (query_info[j].queries[k].site==i+1){
+//                            conf.rows.push( [query_info[j].queries[k].id, 
+//                                             query_info[j].queries[k].visit,
+//                                             query_info[j].queries[k].field,
+//                                             query_info[j].queries[k].query] );
+//                        }
+//                    }           
                 } else {
                     conf.rows = [['N/A', 'N/A', 'N/A', "No queries for this measure!"]];
                 }
