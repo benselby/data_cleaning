@@ -3,28 +3,34 @@ var util = require('util');
 var fs = require('fs');
 var rf = require('../reports');
 
-field_dict = {'demo_dad_dob':'Napls3Demo.Demo_19',
-            'demo_mom_dob':'Napls3Demo.Demo_21'};
+
+function padded( id ){
+    if (id.length>4){
+        console.log("Bad ID - cannot pad!");
+        return -1;
+    } 
+    while (id.length<4)
+        id = '0' + id;
+    return id
+}
 
 function check_DOB( array, target, raw_data, queries, miss_data ) {
     var bad = [];
     for (var i=0; i<array.length; i++){
         var row_ind = rf.get_data_row( array[i].SiteNumber, array[i].SubjectNumber, raw_data.data );
-        if (array[i][target].substring(0,2) != '15') {
-            if (array[i][target]=='') {
-                var obj_name = 'NAPLS3-0' + array[i].SiteNumber + '-0' + array[i].SubjectNumber;
-                var fields = miss_data.filter(function(row){ 
-                        return row.CALC_OBJECT_NAME==obj_name; 
-                    });
-                if ( fields.length > 0 ) {
-//                    console.log("Demographics: missing data approved for " + obj_name);
-                    continue;
-                } else
-                    queries.push(rf.make_query(array[i], target, "Should not be blank without corresponding missing code V3", row_ind));    
-            }         
-//            else     
-//                queries.push(rf.make_query(array[i], target, "Day of date should be 15", row_ind));
-        }
+        if (array[i][target]=='') {
+            var obj_name = 'REGROUP-0' + array[i].SiteNumber + '-' + padded(array[i].SubjectNumber);
+            var fields = miss_data.filter(function(row){ 
+                    return row.CALC_OBJECT_NAME==obj_name; 
+                });
+            if ( fields.length > 0 ) {
+                console.log("Demographics: missing data approved for " + obj_name);
+                continue;
+            } else {
+                console.log("***** Demographics: no approved missing data for " + obj_name);
+                queries.push(rf.make_query(array[i], target, "Should not be blank without corresponding missing code V3", row_ind));    
+            }
+        }         
     }
 };
 
@@ -65,7 +71,9 @@ module.exports = {
         if (m_data.length==0)
             console.log( "Demographics: failed to load missing data sheet! Proceeding");
         else {        
-            miss_data = m_data.filter( function(row) { return row.TASK_NAME=='Demographics'; } ); 
+            miss_data = m_data.filter( function(row) { 
+                return row.TASK_NAME=='Demographics' && row.PROJECT=='REGROUP'; 
+            }); 
             if (miss_data.length==0)
                 console.log( "Demographics: found no missing data - proceeding without.");
         }

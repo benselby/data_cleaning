@@ -56,10 +56,10 @@ module.exports = {
             for (var i=0; i<data.length; i++) {
                 var row_ind = get_row(data[i], raw_data.data);
                 
-                if (data[i].ccs_01=='0' && data[i].SubjectType!='Control')
-                    queries.push(rf.make_query(data[i], 'Current clinical state', "Subject should be control given CCS is 0", row_ind));
-                else if (data[i].ccs_01!='0' && data[i].SubjectType=='Control')
-                    queries.push(rf.make_query(data[i], 'Current clinical state', "Subject is control but has non-zero CCS", row_ind));
+//                if (data[i].ccs_01=='0' && data[i].SubjectType!='Control')
+//                    queries.push(rf.make_query(data[i], 'Current clinical state', "Subject should be control given CCS is 0", row_ind));
+//                else if (data[i].ccs_01!='0' && data[i].SubjectType=='Control')
+//                    queries.push(rf.make_query(data[i], 'Current clinical state', "Subject is control but has non-zero CCS", row_ind));
                     
                 if (data[i].VisitLabel=='BL')
                     check_fields(data[i], ['ccs_01'], ['1','2'], queries, row_ind, "timepoint is baseline");
@@ -67,13 +67,13 @@ module.exports = {
                 if (data[i].ccs_01=='4' && data[i].VisitLabel!='C')
                     queries.push(rf.make_query(data[i], 'Current clinical state', "Should not be 4 unless participant is converted", row_ind));
                 
-                if (data[i].VisitLabel!='C'){
-                    if (data[i].ccs_02!='')
-                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be blank (cancel code V5)", row_ind));
-                        
-                    if (data[i].ccs_03!='')
-                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be blank (cancel code V5)", row_ind));
-                }
+//                if (data[i].VisitLabel!='C'){
+//                    if (data[i].ccs_02!='')
+//                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria', "Should be blank (cancel code V5)", row_ind));
+//                        
+//                    if (data[i].ccs_03!='')
+//                        queries.push(rf.make_query(data[i], 'CAARMS conversion criteria date', "Should be blank (cancel code V5)", row_ind));
+//                }
             }
         }
         
