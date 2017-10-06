@@ -37,8 +37,13 @@ module.exports = {
                     }
                     else {
                         var scid_row = get_row(cdss_data[i], raw_scid.data) - 2;
-                        if (raw_scid.data[ scid_row ].scid_mood_depression!='71.9' && remission_codes.indexOf(raw_scid.data[ scid_row ].scid_mood_depression) == -1)                        
-                            queries.push(rf.make_query(cdss_data[i], 'CDSS Total Score', "Possible inappropriate code given CDSS score < 10", scid_row+2));
+                        if (scid_row < 0){
+                            console.log('Could not find matching SCID data for CDSS row %d, skipping!', i+2);
+                            continue;
+                        } else {
+                            if (raw_scid.data[ scid_row ].scid_mood_depression!='71.9' && remission_codes.indexOf(raw_scid.data[ scid_row ].scid_mood_depression) == -1)                        
+                                queries.push(rf.make_query(cdss_data[i], 'CDSS Total Score', "Possible inappropriate code given CDSS score < 10", scid_row+2));
+                        }
                     }                
                 }
             }
