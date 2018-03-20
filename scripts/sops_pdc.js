@@ -34,12 +34,14 @@ module.exports = {
                     var pdc_ind = get_row( pdc_row, pdc_list[d] ) - 2; 
                     var sops_ind = get_row( pdc_row, raw_sops ) - 2; 
                     
-                    if (sops_ind== -1){
+                    if (sops_ind == -3){
+			err = pdc_row.SiteNumber + '_' + pdc_row.SubjectNumber + '_' + pdc_row.VisitLabel;
+			console.log("SOPS-PDC: no matching SOPS row for PDC entry", err);
                         return;
                     }
                     
                     var sops_row = raw_sops[sops_ind];
-                    
+                   
                     var sops_p = ['P1_SOPS','P2_SOPS','P3_SOPS','P4_SOPS','P5_SOPS'];
                     if (pdc_row.pdc_a1=='1'){
                         var found_6 = false;
@@ -55,7 +57,7 @@ module.exports = {
                         }
                     } else if (pdc_row.pdc_a1=='0'){
                         sops_p.forEach(function(item){
-                            if (sops_row.item=='6'){
+			    if (sops_row.item=='6'){
                                 var str = "Should be 'Yes' given " + item + "  score of 6";
                                 queries.push(rf.make_query(pdc_row, 'PDC BIPS - A1', str, pdc_ind+2));
                             }

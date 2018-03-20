@@ -25,8 +25,12 @@ module.exports = {
                                           "SubjectNumber":has_12[i].SubjectNumber,
                                           "VisitLabel":"BL"}, 
                                           data);
-                
-                var bl_date = new Date(bl.DataCollectedDate.replace(/-/g," "));
+		if (bl == -1){
+       		    console.log('GAF: Subject ', has_12[i].SiteNumber, '-', has_12[i].SubjectNumber, 'has no baseline GAF - skipping!');
+		    continue;
+		}
+		               
+		var bl_date = new Date(bl.DataCollectedDate.replace(/-/g," "));
                 var mo12_date = new Date(has_12[i].DataCollectedDate.replace(/-/g, " "));
                 var time_diff = mo12_date.getTime() - bl_date.getTime();
                 var diff_days = Math.floor(time_diff / (1000*3600*24) );
