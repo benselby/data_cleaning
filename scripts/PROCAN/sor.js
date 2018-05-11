@@ -78,10 +78,10 @@ module.exports = {
                                 queries.push(rf.make_query(all_pt[i], 'Improvement/worsening', 'Cannot be both improving and worsening', row_ind));
                             
                             if (all_pt[i].stage_of_risk_01!='9'){
-                                if (all_pt[i].stage_of_risk_13=='1' && all_pt[i].stage_of_risk_01>all_pt[i-1].stage_of_risk_01)
+                                if (all_pt[i].stage_of_risk_13=='1' && all_pt[i].stage_of_risk_01>all_pt[i-1].stage_of_risk_01) 
                                     queries.push(rf.make_query(all_pt[i], 'Improvement', 'Participant stage worsened', row_ind));
 
-                                if (all_pt[i].stage_of_risk_14=='1' && all_pt[i].stage_of_risk_01<all_pt[i-1].stage_of_risk_01)
+                                if (all_pt[i].stage_of_risk_14=='1' && all_pt[i].stage_of_risk_01<all_pt[i-1].stage_of_risk_01 && all_pt[i-1].stage_of_risk_01!='9')
                                     queries.push(rf.make_query(all_pt[i], 'Worsening', 'Participant stage improved', row_ind));                            
                             }
                         } else if (all_pt[i].stage_of_risk_12=='0'){

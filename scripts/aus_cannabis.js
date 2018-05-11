@@ -26,8 +26,7 @@ module.exports = {
             can_data.forEach( function( can_row ) { 
                 var can_ind = get_row( can_row, raw_can ) - 2; 
                 var aus_ind = get_row( can_row, raw_aus ) - 2; 
-                
-                if (aus_ind== -1){
+                if (aus_ind== -3){
                     return;
                 }                
                 var aus_row = raw_aus[aus_ind];

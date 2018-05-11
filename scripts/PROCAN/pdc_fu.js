@@ -107,7 +107,7 @@ module.exports = {
                     }
                 }          
                 if (data[i].pdc_a9=='1'){
-                    if (check_fields(data[i], ['pdc_a10','pdc_a11','pdc_a12','pdc_a13'], [''], queries, row_ind, "pdc_a9 is 1")){
+                    if (check_fields(data[i], ['pdc_a10','pdc_a11','pdc_a12'], [''], queries, row_ind, "pdc_a9 is 1")){
                         bad_bips.push(row_ind);
                     }                  
                                         
