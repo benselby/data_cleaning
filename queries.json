@@ -203,6 +203,36 @@
     "url": ["./regroup/RGRP_Trauma.csv"]
     },
         
+    {"study":"ReGroup",
+    "name":"PDC and SPDC",
+    "script_path":"./scripts/regroup/pdc_spd.js",
+    "url": ["./regroup/RGRP_SPDC.csv","./regroup/RGRP_PDC.csv"]
+    }, 
+
+    {"study":"ReGroup",
+    "name":"SCID and CDSS",
+    "script_path":"./scripts/regroup/scid_cdss.js",
+    "url": ["./regroup/RGRP_SCIDIV.csv","./regroup/RGRP_CDSS.csv"]
+    }, 
+
+    {"study":"ReGroup",
+    "name":"SCID and AUS",
+    "script_path":"./scripts/regroup/scid_aus.js",
+    "url": ["./regroup/RGRP_SCIDIV.csv","./regroup/RGRP_AUS_DUS.csv"]
+    }, 
+
+    {"study":"ReGroup",
+    "name":"SCID and SPDC",
+    "script_path":"./scripts/regroup/scid_spd.js",
+    "url": ["./regroup/RGRP_SCIDIV.csv","./regroup/RGRP_SPDC.csv"]
+    }, 
+
+    {"study":"ReGroup",
+    "name":"SOPS and PDC",
+    "script_path":"./scripts/regroup/sops_pdc.js",
+    "url": ["./regroup/RGRP_SOPS.csv","./regroup/RGRP_PDC.csv"]
+    }, 
+
     {"study":"PROCAN",
     "name":"Alcohol and Drug Use Scale",
     "script_path":"./scripts/PROCAN/aus_dus.js",
@@ -297,6 +327,54 @@
     "name":"Young Mania Scale",
     "script_path":"./scripts/PROCAN/yms.js",
     "url": ["./PROCAN/PCAN_YMS.csv"]
-    }
+    },
+
+    {"study":"PROCAN",
+    "name":"AUS-DUS and Cannabis",
+    "script_path":"./scripts/PROCAN/aus_cannabis.js",
+    "url": ["./PROCAN/PCAN_AUS_DUS.csv","./PROCAN/PCAN_Cannabis.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"PDC and SPDC",
+    "script_path":"./scripts/PROCAN/pdc_spd.js",
+    "url": ["./PROCAN/PCAN_SPDC.csv","./PROCAN/PCAN_PDC.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"SCID and CDSS",
+    "script_path":"./scripts/PROCAN/scid_cdss.js",
+    "url": ["./PROCAN/PCAN_SCIDIV.csv","./PROCAN/PCAN_CDSS.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"SCID and AUS",
+    "script_path":"./scripts/PROCAN/scid_aus.js",
+    "url": ["./PROCAN/PCAN_SCIDIV.csv","./PROCAN/PCAN_AUS_DUS.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"SCID and Transition",
+    "script_path":"./scripts/PROCAN/scid_conversion.js",
+    "url": ["./PROCAN/PCAN_SCIDIV.csv","./PROCAN/PCAN_Transition.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"SCID and SPDC",
+    "script_path":"./scripts/PROCAN/scid_spd.js",
+    "url": ["./PROCAN/PCAN_SCID.csv","./PROCAN/PCAN_SPDC.csv"]
+    }, 
+
+    {"study":"PROCAN",
+    "name":"SOPS and Transition",
+    "script_path":"./scripts/PROCAN/sops_conv.js",
+    "url": ["./PROCAN/PCAN_SOPS.csv","./PROCAN/PCAN_Transition.csv"]
+    }, 
     
+    {"study":"PROCAN",
+    "name":"SOPS and PDC",
+    "script_path":"./scripts/PROCAN/sops_pdc.js",
+    "url": ["./PROCAN/PCAN_SOPS.csv","./PROCAN/PCAN_PDC.csv"]
+    } 
+
 ]
