@@ -32,7 +32,7 @@ module.exports = {
                 var conv_ind = get_row( conv_row, raw_conv ) - 2; 
                 var scid_ind = get_row( conv_row, raw_scid ) - 2;            
                                                 
-                if (scid_ind == -1) {
+                if (scid_ind == -3) {
                    console.log("SCID_Conversion: no matching SCID row found - skipping row ", scid_ind+2);
                    return;
                 }
